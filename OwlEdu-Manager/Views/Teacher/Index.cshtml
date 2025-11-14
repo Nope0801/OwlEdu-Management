@@ -1,0 +1,273 @@
+﻿<div class="main-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="~/images/owl.png" alt="logo"/>
+            <span class="sidebar-title">OwlEdu</span>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="#" class="sidebar-item">
+                <span class="label"><i class="fa-solid fa-bell"></i>    Thông báo</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <span class="label"><i class="fa-solid fa-book"></i>    Khóa học</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <span class="label"><i class="fa-solid fa-school"></i>  Lớp học của bạn</span>
+            </a>
+        </nav>
+    </aside>
+
+    <div class="main-panel">
+        <header class="header">
+            <div class="header-right">
+                <button class="btn-mode" onclick="toggleTheme()"><i class="fa-solid fa-sun"></i></button>
+
+                <button class="btn-fullscreen" onclick="toggleFullScreen()"><i class="fa-solid fa-compress"></i></button>
+
+                <div class="user-menu">
+                    <button class="btn-user"><i class="fa-solid fa-user"></i><span>Full name</span></button>
+                    <div class="dropdown">
+                        <a href="#"><i class="fa-solid fa-address-card"></i>    Xem thông tin</a>
+                        <a href="#"><i class="fa-solid fa-right-from-bracket"></i>  Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="main">
+            Teacher
+        </main>
+    </div>
+</div>
+
+<style>
+.main-container {
+    display: flex;       
+    height: 100vh;     
+}
+
+.main-panel {
+    flex: 1;            
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.main-panel > header {
+    flex-shrink: 0;    
+}
+
+.main {
+    flex: 1;     
+    height: 1200px;
+    overflow: auto;      
+    background-color: var(--bg);
+}
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    padding: 10px 10px;
+    background-color: var(--surface);
+    border-bottom: 1px solid var(--border);
+    height: fit-content;
+    gap: 15px;
+    position: sticky;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-mode {
+    padding: 6px 12px;
+    width: 40px;
+    text-align: center;
+    border: none;
+    color: var(--text-main);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    font-size: 16px;
+    background-color: var(--surface);
+}
+.btn-mode:hover {
+    color: var(--text-reverse);
+    background-color: var(--primary-hover);
+    border: 1px solid transparent;
+}
+
+.btn-fullscreen {
+    padding: 6px 12px;
+    width: 40px;
+    text-align: center;
+    border: none;
+    color: var(--text-main);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    font-size: 16px;
+    background-color: var(--surface);
+}
+.btn-fullscreen:hover {
+    color: var(--text-reverse);
+    background-color: var(--primary-hover);
+    border: 1px solid transparent;
+}
+
+.user-menu {
+    position: relative;
+}
+.btn-user {
+    padding: 6px 12px;
+    border: none;
+    background-color: var(--surface);
+    color: var(--text-main);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    border: 1px solid var(--border);
+}
+.btn-user span {
+    padding-left: 10px;
+}
+.btn-user:hover {
+    color: var(--text-reverse);
+    background-color: var(--primary-hover);
+    border: 1px solid transparent;
+}
+
+.user-menu .dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.user-menu .dropdown a {
+    padding: 10px 15px;
+    text-decoration: none;
+    color: var(--text-main);
+}
+.user-menu .dropdown a:hover {
+    background-color: var(--primary);
+    color: var(--text-reverse);
+}
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding: 10px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;             
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    height: fit-content;
+}
+
+.sidebar-header img {
+    height: 40px;      
+    width: auto;         
+    object-fit: contain;   
+}
+
+.sidebar-title {
+    color: var(--primary);
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    color: var(--text-main);
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.sidebar-item:hover {
+    background: #4680e59f;
+    color: var(--text-reverse);
+}
+
+.sidebar-item.active {
+    background: #466be5;
+    color: var(--text-reverse);
+}
+</style>
+
+
+<script>
+$(document).ready(function() {
+    $('.btn-mode').click(function() {
+        $('.btn-mode').toggleClass('dark');
+        if($('.btn-mode').hasClass('dark')) {
+            $(this).html('<i class="fa-solid fa-moon"></i>');
+        } else {
+            $(this).html('<i class="fa-solid fa-sun"></i>');
+        }
+    });
+
+    $('.btn-user').mouseenter(function(e) {
+      e.stopPropagation(); 
+      $('.user-menu .dropdown').stop(true, true).slideToggle(200);
+    });
+
+    $('.user-menu .dropdown').mouseleave(function() {
+        $('.user-menu .dropdown').hide();
+    });
+
+    $(document).ready(function() {
+        $('.user-menu .dropdown').hide();
+    });
+});
+
+$('.sidebar-item').on('click', function () {
+    $('.sidebar-item').removeClass('active');
+    $(this).addClass('active');
+});
+
+$(document).ready(function() {
+    $('.sidebar-item').first().click();
+});
+
+function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        $('.btn-fullscreen').html('<i class="fa-solid fa-expand"></i>');
+        document.documentElement.requestFullscreen();
+    } else {
+        $('.btn-fullscreen').html('<i class="fa-solid fa-compress"></i>');
+        document.exitFullscreen();
+    }
+}
+</script>
