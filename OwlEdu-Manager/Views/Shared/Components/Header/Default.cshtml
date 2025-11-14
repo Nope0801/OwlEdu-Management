@@ -1,0 +1,129 @@
+﻿<header class="header">
+    <div class="header-right">
+        <button class="btn-mode" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i></button>
+
+        <div class="user-menu">
+            <button class="btn-user"><i class="fa-solid fa-user"></i><span>Full name</span></button>
+            <div class="dropdown">
+                <a href="#">Xem thông tin</a>
+                <a href="#">Đăng xuất</a>
+            </div>
+        </div>
+
+        <div>@Html.Partial("_Switch", new { Id = "switch", OnChange = "toggleTheme" })</div>
+    </div>
+</header>
+<script>
+function onSwitchChanged(element) {
+    console.log(`Switch ${element.id} changed: ${element.checked}`);
+}
+
+function toggleDarkMode(element) {
+    document.body.classList.toggle("dark", element.checked);
+}
+</script>
+<style>
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    padding: 10px 10px;
+    background-color: var(--surface);
+    border-bottom: 1px solid var(--border);
+    height: fit-content;
+    gap: 15px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-mode {
+    padding: 6px 12px;
+    width: 40px;
+    text-align: center;
+    border: none;
+    color: var(--text-main);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.btn-mode:hover {
+    color: var(--text-reverse);
+    background-color: var(--primary-hover);
+}
+
+.user-menu {
+    position: relative;
+}
+.btn-user {
+    padding: 6px 12px;
+    border: none;
+    background-color: var(--surface);
+    color: var(--text-main);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.btn-user span {
+    padding-left: 10px;
+}
+.btn-user:hover {
+    color: var(--text-reverse);
+    background-color: var(--primary-hover);
+}
+
+.user-menu .dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.user-menu .dropdown a {
+    padding: 10px 15px;
+    text-decoration: none;
+    color: var(--text-main);
+}
+.user-menu .dropdown a:hover {
+    background-color: var(--primary);
+    color: var(--text-reverse);
+}
+</style>
+
+<script>
+$(document).ready(function() {
+    $('.btn-mode').click(function() {
+        $('.btn-mode').toggleClass('dark');
+        if($('.btn-mode').hasClass('dark')) {
+            $(this).html('<i class="fa-solid fa-sun"></i>');
+        } else {
+            $(this).html('<i class="fa-solid fa-moon"></i>');
+        }
+    });
+
+    $('.btn-user').mouseenter(function(e) {
+      e.stopPropagation(); 
+      $('.user-menu .dropdown').stop(true, true).slideToggle(200);
+    });
+
+    $('.user-menu .dropdown').mouseleave(function() {
+        $('.user-menu .dropdown').hide();
+    });
+
+    $(document).ready(function() {
+        $('.user-menu .dropdown').hide();
+    });
+});
+</script>

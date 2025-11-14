@@ -1,22 +1,311 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
+﻿* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    transition: all 0.3s ease-in-out, color 0.3s linear;
+    font-family: "Roboto", sans-serif;
     font-size: 16px;
-  }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+/* ==========================
+   LIGHT MODE PALETTE
+   ========================== */
+
+.btl-primary-light {
+    color: #4F46E5;
+}
+/* Indigo 600 */
+.btl-primary-hover-light {
+    color: #4338CA;
+}
+/* Indigo 700 */
+.btl-secondary-light {
+    color: #10B981;
+}
+/* Emerald 500 */
+.btl-background-light {
+    color: #F9FAFB;
+}
+/* Neutral 50 */
+.btl-surface-light {
+    color: #FFFFFF;
+}
+/* Card / Form */
+.btl-text-main-light {
+    color: #111827;
+}
+/* Gray 900 */
+.btl-text-muted-light {
+    color: #4B5563;
+}
+/* Gray 600 */
+.btl-border-light {
+    color: #E5E7EB;
+}
+/* Gray 200 */
+.btl-error-light {
+    color: #EF4444;
+}
+/* Red 500 */
+.btl-warning-light {
+    color: #FBBF24;
+}
+/* Amber 400 */
+.btl-info-light {
+    color: #60A5FA;
+}
+/* Blue 400 */
+
+/* ==========================
+   🌙 DARK MODE PALETTE
+   ========================== */
+
+.btl-primary-dark {
+    color: #818CF8;
+}
+/* Indigo 400 */
+.btl-primary-hover-dark {
+    color: #A5B4FC;
+}
+/* Indigo 300 */
+.btl-secondary-dark {
+    color: #34D399;
+}
+/* Emerald 400 */
+.btl-background-dark {
+    color: #0F172A;
+}
+/* Gray 950 */
+.btl-surface-dark {
+    color: #1E293B;
+}
+/* Gray 800 */
+.btl-text-main-dark {
+    color: #F3F4F6;
+}
+/* Gray 100 */
+.btl-text-muted-dark {
+    color: #9CA3AF;
+}
+/* Gray 400 */
+.btl-border-dark {
+    color: #374151;
+}
+/* Gray 700 */
+.btl-error-dark {
+    color: #F87171;
+}
+/* Red 400 */
+.btl-warning-dark {
+    color: #FCD34D;
+}
+/* Amber 300 */
+.btl-info-dark {
+    color: #93C5FD;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+:root {
+    --primary: #4F46E5;
+    --primary-hover: #4338CA;
+    --secondary: #10B981;
+    --bg: #F9FAFB;
+    --surface: #FFFFFF;
+    --text-main: #111827;
+    --text-muted: #4B5563;
+    --text-reverse: #FFFFFF;
+    --border: #E5E7EB;
+    --error: #EF4444;
+    --warning: #FBBF24;
+    --info: #60A5FA;
 }
 
-body {
-  margin-bottom: 60px;
+.btl-main-content {
+    padding: 24px;
+    background-color: var(--bg);
+    color: var(--text-main);
+}
+
+.btl-section {
+    padding: 16px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.btl-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.btl-btn.primary {
+    background-color: var(--primary);
+    color: var(--text-reverse);
+}
+
+.btl-btn.primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btl-btn.secondary {
+    background-color: var(--secondary);
+    color: var(--text-reverse);
+}
+
+.btl-btn.secondary:hover {
+    opacity: 0.85;
+}
+
+.btl-btn.danger {
+    background-color: var(--error);
+    color: var(--text-reverse);
+}
+
+.btl-btn.danger:hover {
+    opacity: 0.85;
+}
+
+.btl-btn.warning {
+    background-color: var(--warning);
+    color: var(--text-reverse);
+}
+
+.btl-btn.warning:hover {
+    opacity: 0.85;
+}
+
+.btl-checkbox[type="checkbox"] {
+    margin-right: 6px;
+    accent-color: var(--primary);
+}
+
+input[type="color"] {
+    width: 50px;
+    height: 36px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.btl-datepicker[type="date"],
+.btl-timepicker[type="time"] {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background-color: var(--surface);
+    color: var(--text-main);
+    cursor: pointer;
+    width: 100%;
+}
+
+.btl-datepicker[type="date"]:focus,
+.btl-timepicker[type="time"]:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.btl-form-fieldset {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 300px;
+    margin-bottom: 16px;
+}
+
+.btl-form-fieldset legend {
+    padding: 0 8px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.btl-input {
+    padding: 8px 12px;
+    margin: 6px 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    width: 100%;
+    transition: border-color 0.3s;
+}
+
+.btl-input:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.btl-radio[type="radio"] {
+    margin-right: 6px;
+    accent-color: var(--primary);
+}
+
+.btl-select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    width: 100%;
+    background-color: var(--surface);
+    color: var(--text-main);
+}
+
+.btl-select:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.datagrid-container {
+    width: 100%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    overflow-x: auto;
+}
+
+.datagrid {
+    border-collapse: collapse;
+}
+
+/* Fit mode: cột vừa nội dung, có scroll khi quá dài */
+.datagrid-container.fit .datagrid {
+    table-layout: auto;
+    width: auto;
+}
+
+/* Fill mode: bảng co vừa container */
+.datagrid-container.fill .datagrid {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.datagrid th, .datagrid td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+}
+
+.datagrid thead {
+    background-color: rgba(16, 66, 167, 0.1);
+    color: var(--text-main);
+    cursor: pointer;
+    text-align: center;
+}
+
+.datagrid tbody {
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* .datagrid tbody tr:hover { background-color: var(--primary-hover); color: var(--text-reverse); }
+.datagrid tbody tr.selected { background-color: var(--primary); color: var(--text-reverse); } */
+
+.datagrid th.sorted-asc::after {
+    content: " ▲";
+}
+
+.datagrid th.sorted-desc::after {
+    content: " ▼";
 }

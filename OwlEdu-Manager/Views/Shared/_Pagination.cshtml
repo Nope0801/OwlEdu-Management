@@ -1,0 +1,64 @@
+﻿@model dynamic
+<!-- Model là object: { Id, TotalPages, OnPageChangeFunctionName } -->
+
+<div id="@Model.Id" class="pagination-container"></div>
+
+<style>
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    background-color: transparent;
+}
+
+.page-btn {
+    padding: 6px 12px;
+    background-color: var(--surface);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.page-btn:hover:not(:disabled) {
+    background-color: var(--primary-hover);
+    color: var(--text-reverse);
+    border-color: var(--primary-hover);
+}
+
+.page-btn.active {
+    background-color: var(--primary);
+    color: var(--text-reverse);
+    border-color: var(--primary);
+}
+
+.page-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.dots {
+    padding: 6px 8px;
+    color: var(--text-muted);
+}
+</style>
+
+<script>
+
+(function () {
+    $(document).ready(function () {
+        const containerId = '@Model.Id';
+        const totalPages = @Model.TotalPages;
+        const callbackName = '@Model.OnPageChangeFunctionName';
+    });
+})();
+
+function Load() {
+    renderPagination(containerId, totalPages, callbackName);
+}
+
+</script>

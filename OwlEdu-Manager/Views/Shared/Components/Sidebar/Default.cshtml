@@ -1,0 +1,91 @@
+﻿    @model List<string>
+
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <img src="~/images/owl.png" alt="logo"/>
+        <span class="sidebar-title">OwlEdu</span>
+    </div>
+
+    <nav class="sidebar-menu">
+        @foreach (var item in @Model)
+        {
+            <a href="#" class="sidebar-item">
+                <span class="label">Item 1</span>
+            </a>
+        }
+    </nav>
+</aside>
+
+<style>
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding: 10px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;             
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    height: fit-content;
+}
+
+.sidebar-header img {
+    height: 40px;      
+    width: auto;         
+    object-fit: contain;   
+}
+
+.sidebar-title {
+    color: var(--primary);
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    color: var(--text-main);
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.sidebar-item:hover {
+    background: #4680e59f;
+    color: var(--text-reverse);
+}
+
+.sidebar-item.active {
+    background: #466be5;
+    color: var(--text-reverse);
+}
+</style>
+
+<script>
+    $('.sidebar-item').on('click', function () {
+        $('.sidebar-item').removeClass('active');
+        $(this).addClass('active');
+    });
+
+    $(document).ready(function() {
+        $('.sidebar-item').first().click();
+    });
+</script>

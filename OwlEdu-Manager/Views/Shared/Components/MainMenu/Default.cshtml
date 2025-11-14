@@ -1,0 +1,37 @@
+﻿@model List<string>
+<div class="main-container">
+    @await Component.InvokeAsync("Sidebar", Model)
+
+    <div class="main-panel">
+        @await Component.InvokeAsync("Header")
+        <main class="main">
+            @Html.Partial("_Pagination", new { Id = "123", TotalPages = 10, OnPageChangeFunctionName = "toggleTheme" })
+        </main>
+    </div>
+</div>
+
+<style>
+.main-container {
+    display: flex;       
+    height: 100vh;     
+}
+
+.main-panel {
+    flex: 1;            
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.main-panel > header {
+    flex-shrink: 0;    
+}
+
+.main {
+    flex: 1;            
+    overflow: auto;      
+    background-color: var(--bg);
+}
+</style>
+
+

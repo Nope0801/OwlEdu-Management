@@ -7624,7 +7624,7 @@ textarea.form-control-lg {
 .text-nowrap {
   white-space: nowrap !important;
 }
-.text-primary {
+.text-main {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity)) !important;
 }
