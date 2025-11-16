@@ -1,28 +1,23 @@
-﻿<div class="card">
-    <div class="title row align-items-center g-2">
-        <div class="col-12 col-md-6">
-            <p class="m-0">Danh sách khóa học</p>
+﻿<div class="container py-4">
+    <div class="btl-card">
+        <div class="title row align-items-center g-2">
+            <div class="col-12 col-md-8">
+                <p class="m-0">Đăng ký khóa học mới</p>
+            </div>
+
+            <div class="col-12 col-md-4 text-md-end">
+                <input type="text" id="search-box" class="form-control"
+                    placeholder="Tìm kiếm..." />
+            </div>
         </div>
 
-        <div class="col-12 col-md-6 text-md-end">
-            <input type="text" id="search-box" class="form-control"
-                placeholder="Tìm kiếm..." />
-        </div>
+        <div class="component-container" hx-get="/Components/Datagrid" hx-vals='{"Id": "dgCourse"}' hx-trigger="revealed" data-on-load="onLoadDgCourse"></div>
+
+        <div class="component-container" hx-get="/Components/Pagination" hx-vals='{"Id": "pagDgCourse"}' hx-trigger="revealed" data-on-load="onLoadCoursePagination"></div>
     </div>
-
-    <div class="component-container" hx-get="/Components/Datagrid" hx-vals='{"Id": "TestDatagrid"}' hx-trigger="revealed" data-on-load="onLoadDatagrid"></div>
-
-    <div class="component-container" hx-get="/Components/Pagination" hx-vals='{"Id": "TestPag"}' hx-trigger="revealed" data-on-load="onLoadPag"></div>
 </div>
 
 <style>
-.card {
-    padding: 16px;
-    border-radius: 8px;
-    background-color: var(--surface);
-    border: 1px solid var(--border);
-    margin: 10px;
-}
 
 .title {
     padding-bottom: 10px;
@@ -55,11 +50,11 @@
         ActiveModal('modal', 'Thông báo', 'Trang hiện tại là: ' + currentPage);
     }
 
-    function onLoadPag() {
-        renderPagination("TestPag", 21, "Test");
+    function onLoadCoursePagination() {
+        renderPagination("pagDgCourse", 21, "Test");
     }
 
-    function onLoadDatagrid() {
+    function onLoadDgCourse() {
         const headers = [
             "ID",
             "Tên khóa học",
@@ -67,17 +62,29 @@
             "Số buổi học",
             "Học phí"
         ];
-        renderDatagridHeader("TestDatagrid", headers, true);
 
-        const data = [
-            [1, "IELTS", "Khóa học tiếng anh", 100, "100.000.000đ"],
-            [2, "TOEFL", "Khóa học chuẩn bị TOEFL", 80, "80.000.000đ"],
-            [3, "Tiếng Nhật N5", "Khóa học cơ bản", 60, "50.000.000đ"]
+        renderDatagridHeader("dgCourse", headers, true);
+
+        var data = [
+            {
+                ID: "1",
+                "Tên khóa học": "IELTS Foundation",
+                "Mô tả": "Mô tả",
+                "Số buổi học": 10,
+                "Học phí": 1000000
+            },
+            {
+                ID: "2",
+                "Tên khóa học": "TOEIC Intensive",
+                "Mô tả": "Mô tả",
+                "Số buổi học": 10,
+                "Học phí": 1000000
+            }
         ];
 
-        fillDatagrid("TestDatagrid", data, true);
+        fillDatagrid("dgCourse", data, true);
 
-        fillDatagridAction("TestDatagrid", [
+        fillDatagridAction("dgCourse", [
             { 
                 text: "Chi tiết", 
                 iconClass: "fa-solid fa-info", 

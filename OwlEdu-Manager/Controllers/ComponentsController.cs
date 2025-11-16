@@ -22,5 +22,10 @@ namespace OwlEdu_Manager.Controllers
         {
             return PartialView("_Datagrid", Id);
         }
+
+        public IActionResult Schedule(string Id)
+        {
+            return PartialView("_Schedule", Id);
+        }
     }
 }

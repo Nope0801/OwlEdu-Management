@@ -1,0 +1,143 @@
+﻿<div class="container py-4">
+    <div class="btl-card">
+        <div class="title row align-items-center g-2">
+            <div class="col-12 col-md-8">
+                <p class="m-0">Các khóa bạn đã đăng ký</p>
+            </div>
+
+            <div class="col-12 col-md-4 text-md-end">
+                <input type="text" id="search-box" class="form-control"
+                    placeholder="Tìm kiếm..." />
+            </div>
+        </div>
+
+        <div class="component-container" hx-get="/Components/Datagrid" hx-vals='{"Id": "dgEnrollment"}' hx-trigger="revealed" data-on-load="onLoadDg"></div>
+
+        <div class="component-container" hx-get="/Components/Pagination" hx-vals='{"Id": "pagDgvEnrollment"}' hx-trigger="revealed" data-on-load="onLoadPag"></div>
+    </div>
+</div>
+
+<style>
+
+.title {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+}
+
+.title p {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 26px;
+    margin: 0;
+}
+
+#search-box:focus {
+    box-shadow: none;
+    border: 1px solid var(--primary-hover);
+}
+
+.btn:hover {
+    background-color: var(--primary-hover);
+    color: #FFFFFF;
+}
+</style>
+
+<script>
+    function ChangePage(currentPage) {
+
+    }
+
+    function onLoadDg() {
+        var headers = ['ID', 'Tên khóa học', 'Ngày đăng ký', 'Trạng thái']
+
+        renderDatagridHeader('dgEnrollment', headers);
+
+        var data = [
+            {
+                ID: "1",
+                "Tên khóa học": "IELTS Foundation",
+                "Ngày đăng ký": "2025-01-12",
+                "Trạng thái": "active"
+            },
+            {
+                ID: "2",
+                "Tên khóa học": "TOEIC Intensive",
+                "Ngày đăng ký": "2025-01-20",
+                "Trạng thái": "cancelled"
+            },
+            {
+                ID: "3",
+                "Tên khóa học": "Lập trình C# cơ bản",
+                "Ngày đăng ký": "2025-02-01",
+                "Trạng thái": "active"
+            },
+            {
+                ID: "4",
+                "Tên khóa học": "React Native nâng cao",
+                "Ngày đăng ký": "2025-02-10",
+                "Trạng thái": "completed"
+            }
+        ];
+
+
+        fillDatagrid('dgEnrollment', data, true);
+
+        fillDatagridAction("dgEnrollment", [
+            { 
+                text: "Chi tiết", 
+                iconClass: "fa-solid fa-info", 
+                onClick: function() { alert("Clicked Chi tiết"); } 
+            },
+            { 
+                text: "Hủy đăng ký", 
+                iconClass: "fa-solid fa-x", 
+                onClick: function() { alert("Clicked Đăng ký"); } 
+            }
+        ]);
+
+        styleStatusColumn('dgEnrollment');
+    }
+
+    function onLoadPag() {
+        renderPagination('pagDgvEnrollment', 10, 'ChangePage')
+    }
+
+    function styleStatusColumn(containerId) {
+        const $container = $('#' + containerId);
+        const $table = $container.find('table.datagrid');
+        const $tbody = $table.find('tbody');
+
+        $tbody.find('tr').each(function () {
+            const $tr = $(this);
+            // Lấy cột thứ 4 (index 3, 0-based)
+            const $statusTd = $tr.find('td').eq(3);
+            const statusText = $statusTd.text().trim().toLowerCase();
+
+            // Reset màu mặc định trước
+            $statusTd.css({
+                'color': '',
+                'font-weight': 'bold'
+            });
+
+            // Gán màu theo trạng thái
+            switch (statusText) {
+                case 'active':
+                    $statusTd.css('color', '#1D4ED8'); // xanh dương
+                    break;
+                case 'completed':
+                    $statusTd.css('color', '#16A34A'); // xanh lá
+                    break;
+                case 'cancelled':
+                    $statusTd.css('color', '#DC2626'); // đỏ
+                    break;
+                default:
+                    $statusTd.css('color', '#6B7280'); // xám cho các trạng thái khác
+            }
+        });
+    }
+
+
+</script>

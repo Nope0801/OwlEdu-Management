@@ -20,13 +20,16 @@
                 </legend>
             </fieldset>
             <a href="#" class="sidebar-item" hx-get="/Student/Enrollment" hx-trigger="click" hx-target="#main-panel">
-                <span class="label"><i class="fa-solid fa-book"></i>    Đăng ký khóa học</span>
+                <span class="label"><i class="fa-solid fa-book"></i>    Khóa đã đăng ký</span>
             </a>
             <a href="#" class="sidebar-item" hx-get="/Student/Course" hx-trigger="click" hx-target="#main-panel">
-                <span class="label"><i class="fa-solid fa-book"></i>    Khóa học</span>
+                <span class="label"><i class="fa-solid fa-file-contract"></i>    Đăng ký khóa học</span>
             </a>
             <a href="#" class="sidebar-item" hx-get="/Student/Class" hx-trigger="click" hx-target="#main-panel">
-                <span class="label"><i class="fa-solid fa-school"></i>  Lớp học</span>
+                <span class="label"><i class="fa-solid fa-school"></i>  Lớp học của bạn</span>
+            </a>
+            <a href="#" class="sidebar-item" hx-get="/Student/Schedule" hx-trigger="click" hx-target="#main-panel">
+                <span class="label"><i class="fa-solid fa-calendar"></i> Lịch học của bạn</span>
             </a>
             <fieldset class="sidebar-catalog">
                 <legend>
@@ -49,7 +52,7 @@
                 <div class="user-menu">
                     <button class="btn-user"><i class="fa-solid fa-user"></i><span>Full name</span></button>
                     <div class="dropdown">
-                        <a href="#" hx-get="/Student/Profile" hx-trigger="click" hx-target="#main-panel"><i class="fa-solid fa-address-card"></i>    Xem thông tin</a>
+                        <a href="#" hx-get="/Student/Profile" hx-trigger="click" hx-target="#main-panel" onClick='OpenProfile()'><i class="fa-solid fa-address-card"></i>    Xem thông tin</a>
                         <a href="#"><i class="fa-solid fa-right-from-bracket"></i>  Đăng xuất</a>
                     </div>
                 </div>
@@ -251,6 +254,7 @@
     border: none;
     border-top: 1px solid var(--border);
     padding: 5px 0;
+    margin-top: 10px;
 }
 
 .sidebar-catalog legend {

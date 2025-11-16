@@ -1,0 +1,131 @@
+﻿<div class="container py-4">
+    <div class="btl-card">
+        <div class="title row align-items-center g-2">
+            <div class="col-12 col-md-8">
+                <p class="m-0">Hóa đơn của bạn</p>
+            </div>
+
+            <div class="col-12 col-md-4 text-md-end">
+                <input type="text" id="search-box" class="form-control"
+                    placeholder="Tìm kiếm..." />
+            </div>
+        </div>
+
+        <div class="component-container" hx-get="/Components/Datagrid" hx-vals='{"Id": "dgv"}' hx-trigger="revealed" data-on-load="onLoadDg"></div>
+
+        <div class="component-container" hx-get="/Components/Pagination" hx-vals='{"Id": "pag"}' hx-trigger="revealed" data-on-load="onLoadPag"></div>
+    </div>
+</div>
+
+<script>
+    function ChangePage(currentPage) {
+
+    }
+
+    function onLoadDg() {
+        var headers = ['Mã hóa đơn', 'Mã đăng ký', 'Số tiền', 'Ngày đóng học phí', 'Mã người thu', 'Phương thức', 'Trạng thái']
+
+        renderDatagridHeader('dgv', headers, true);
+
+        var data = [
+            {
+                "Mã hóa đơn": "HD001",
+                "Mã đăng ký": "DK001",
+                "Số tiền": "5.000.000đ",
+                "Ngày đóng học phí": "2025-01-12",
+                "Mã người thu": "NV001",
+                "Phương thức": "Tiền mặt",
+                "Trạng thái": "paid"
+            },
+            {
+                "Mã hóa đơn": "HD002",
+                "Mã đăng ký": "DK002",
+                "Số tiền": "3.500.000đ",
+                "Ngày đóng học phí": "2025-01-20",
+                "Mã người thu": "NV002",
+                "Phương thức": "Chuyển khoản",
+                "Trạng thái": "failed"
+            },
+            {
+                "Mã hóa đơn": "HD003",
+                "Mã đăng ký": "DK003",
+                "Số tiền": "7.200.000đ",
+                "Ngày đóng học phí": "2025-02-01",
+                "Mã người thu": "NV001",
+                "Phương thức": "Tiền mặt",
+                "Trạng thái": "paid"
+            },
+            {
+                "Mã hóa đơn": "HD004",
+                "Mã đăng ký": "DK004",
+                "Số tiền": "4.500.000đ",
+                "Ngày đóng học phí": "2025-02-10",
+                "Mã người thu": "NV003",
+                "Phương thức": "Chuyển khoản",
+                "Trạng thái": "pending"
+            },
+            {
+                "Mã hóa đơn": "HD005",
+                "Mã đăng ký": "DK005",
+                "Số tiền": "6.000.000đ",
+                "Ngày đóng học phí": "2025-03-01",
+                "Mã người thu": "NV002",
+                "Phương thức": "Tiền mặt",
+                "Trạng thái": "pending"
+            }
+        ];
+
+
+        fillDatagrid('dgv', data);
+
+        fillDatagridAction("dgv", [
+            { 
+                text: "Chi tiết hóa đơn", 
+                iconClass: "fa-solid fa-info", 
+                onClick: function() { alert("Clicked Chi tiết"); } 
+            },
+            { 
+                text: "In hóa đơn", 
+                iconClass: "fa-solid fa-print",
+                onClick: function() { alert("Clicked "); } 
+            }
+        ]);
+
+        styleStatusColumn('dgv');
+    }
+
+    function onLoadPag() {
+        renderPagination('pag', 10, 'ChangePage')
+    }
+
+    function styleStatusColumn(containerId) {
+        const $container = $('#' + containerId);
+        const $table = $container.find('table.datagrid');
+        const $tbody = $table.find('tbody');
+
+        $tbody.find('tr').each(function () {
+            const $tr = $(this);
+            const $statusTd = $tr.find('td').eq(6);
+            const statusText = $statusTd.text().trim().toLowerCase();
+
+            $statusTd.css({
+                'color': '',
+                'font-weight': 'bold'
+            });
+
+            switch (statusText) {
+                case 'paid':
+                    $statusTd.css('color', '#10B981'); // xanh dương
+                    break;
+                case 'pending':
+                    $statusTd.css('color', '#FBBF24'); // vàng
+                    break;
+                case 'failed':
+                    $statusTd.css('color', '#DC2626'); // đỏ
+                    break;
+                default:
+                    $statusTd.css('color', '#6B7280'); // xám cho các trạng thái khác
+            }
+        });
+    }
+</script>

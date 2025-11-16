@@ -51,25 +51,35 @@ function toggleTheme() {
     setTheme(next);
 }
 
+//Profile
+function OpenProfile() {
+    $('.sidebar-item').removeClass('active');
+}
+
 //On get components
 document.addEventListener('DOMContentLoaded', function () {
     htmx.onLoad(function (el) {
-        el = el.parentElement;
-        if (el.classList && el.classList.contains('component-container')) {
-            const fnName = el.getAttribute('data-on-load');
+
+        var parent = el.parentElement;
+        if (parent.classList && parent.classList.contains('component-container')) {
+
+            const fnName = parent.getAttribute('data-on-load');
+
             if (fnName && typeof window[fnName] === 'function') {
-                $('.datagrid-container').each(function () {
-                    const $container = $(this);
-                    const $table = $container.find('.datagrid');
-
-                    updateDatagridLayout($container);
-                    makeDatagridSortable($table);
-
-                    $(window).on('resize', () => updateDatagridLayout($container));
-                });
                 window[fnName]();
             }
+
+            if (el.classList && el.classList.contains('datagrid-container')) {
+                const $container = $(el);
+                const $table = $container.find('.datagrid');
+
+                updateDatagridLayout($container);
+                makeDatagridSortable($table);
+
+                $(window).on('resize', () => updateDatagridLayout($container));
+            }
         }
+
     });
 });
 
@@ -195,7 +205,6 @@ function CloseModal(modalId) {
 }
 
 // Hàm cập nhật layout cho 1 table/container
-
 function updateDatagridLayout($container) {
     const $table = $container.find('.datagrid');
     const $cols = $table.find('thead th');
@@ -231,25 +240,45 @@ function updateDatagridLayout($container) {
 // Hàm sắp xếp 1 bảng
 function makeDatagridSortable($table) {
     $table.find('th').click(function () {
-        const index = $(this).index();
-        const type = $(this).data('sort');
+        const $th = $(this);
+        const index = $th.index();
+        const type = $th.data('sort') || 'string';
         const $tbody = $table.find('tbody');
         const rows = $tbody.find('tr').toArray();
 
+        const isAsc = $th.hasClass('sorted-asc');
+        const isDesc = $th.hasClass('sorted-desc');
+
+        // Sort trước
         const sorted = rows.sort(function (a, b) {
-            const aText = $(a).find('td').eq(index).text();
-            const bText = $(b).find('td').eq(index).text();
-            if (type === 'number') return parseFloat(aText) - parseFloat(bText);
+            const aText = $(a).find('td').eq(index).text().trim();
+            const bText = $(b).find('td').eq(index).text().trim();
+
+            if (type === 'number') {
+                return parseFloat(aText) - parseFloat(bText);
+            }
             return aText.localeCompare(bText);
         });
 
-        if ($(this).hasClass('sorted-asc')) {
+        // Nếu đang ASC → đổi sang DESC
+        if (isAsc) {
             sorted.reverse();
-            $(this).removeClass('sorted-asc').addClass('sorted-desc');
-        } else {
-            $(this).removeClass('sorted-desc').addClass('sorted-asc');
+            $th.removeClass('sorted-asc').addClass('sorted-desc');
         }
-        $(this).siblings().removeClass('sorted-asc sorted-desc');
+        // Nếu đang DESC → đổi sang ASC
+        else if (isDesc) {
+            // Không cần reverse vì sorted mặc định là ASC
+            $th.removeClass('sorted-desc').addClass('sorted-asc');
+        }
+        // Nếu chưa có sort → set ASC
+        else {
+            $th.addClass('sorted-asc');
+        }
+
+        // Xoá class của cột khác
+        $th.siblings().removeClass('sorted-asc sorted-desc');
+
+        // Gắn lại dữ liệu
         $tbody.append(sorted);
     });
 }
@@ -290,32 +319,43 @@ function fillDatagrid(containerId, data) {
         return;
     }
 
-    const colCount = $thead.find('th').length;
-    const hasAction = $thead.find('th').last().text().trim() === "Hành động";
+    // Danh sách header theo đúng thứ tự
+    const headers = [];
+    $thead.find('th').each(function () {
+        headers.push($(this).text().trim());
+    });
+
+    const colCount = headers.length;
+    const hasAction = headers[headers.length - 1] === "Hành động";
 
     // Xóa tbody hiện tại
     const $tbody = $table.find('tbody');
     $tbody.empty();
 
-    data.forEach(rowData => {
+    // Đổ dữ liệu
+    data.forEach(rowObj => {
         const $tr = $('<tr>');
 
-        // Duyệt dữ liệu từng cột, nhưng **không vượt quá số cột - action**
-        const maxDataCols = hasAction ? colCount - 1 : colCount;
+        // Duyệt theo đúng order header
+        for (let i = 0; i < colCount; i++) {
+            const colName = headers[i];
 
-        for (let i = 0; i < maxDataCols; i++) {
-            let cellValue = rowData[i] !== undefined ? rowData[i] : "";
+            // Nếu là cột Action: bỏ qua, sẽ xử lý phía dưới
+            if (colName === "Hành động") continue;
+
+            let cellValue = rowObj[colName] !== undefined ? rowObj[colName] : "";
             const $td = $('<td>').text(cellValue);
             $tr.append($td);
         }
+
+        // Nếu có cột Hành động thì thêm 1 <td>
         if (hasAction) {
-            const $actionTd = $('<td>');
-            $tr.append($actionTd);
+            $tr.append($('<td>')); // để FillDatagridAction xử lý
         }
+
         $tbody.append($tr);
     });
 }
-
 function fillDatagridAction(containerId, actions) {
     const $container = $('#' + containerId);
     const $table = $container.find('table.datagrid');
@@ -341,8 +381,11 @@ function fillDatagridAction(containerId, actions) {
 
         let $actionTd = $tr.find('td').last();
 
-        // Nếu td cuối chưa phải action, xoá sạch để dùng làm action
-        if (!$actionTd.find('button').length) {
+        // Nếu td cuối chưa phải action (hoặc row chưa đủ cột), tạo td mới
+        if (!$actionTd.length || $actionTd.find('button').length || $tr.children('td').length < $thead.find('th').length) {
+            $actionTd = $('<td>');
+            $tr.append($actionTd);
+        } else {
             $actionTd.empty();
         }
 
@@ -367,4 +410,63 @@ function fillDatagridAction(containerId, actions) {
         });
     });
 }
+
+
+//Schedule
+
+function setScheduleWeek(currentDate) {
+    const date = new Date(currentDate);
+
+    // Lấy thứ hiện tại (0=Sun → 6=Sat)
+    let day = date.getDay();
+    if (day === 0) day = 7; // đổi chủ nhật về 7
+
+    // Tìm ra Thứ Hai của tuần
+    const monday = new Date(date);
+    monday.setDate(date.getDate() - (day - 1));
+
+    const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+    // Lặp qua 7 cột header
+    $(".schedule-header .schedule-day").each(function (i) {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+
+        const dayName = weekdays[i];
+        const dayStr = d.toLocaleDateString("vi-VN"); // dd/mm/yyyy
+
+        $(this).html(`${dayName}<br><small>${dayStr}</small>`);
+    });
+}
+
+function addEvent(day, startTime, endTime, title, room, status = null, color = "event-blue") {
+    const slotHeight = 60; // 1 giờ = 60px
+    const startHour = parseInt(startTime.split(':')[0]);
+    const endHour = parseInt(endTime.split(':')[0]);
+
+    const topPos = (startHour - 7) * slotHeight;
+    const height = (endHour - startHour) * slotHeight;
+
+    // Map trạng thái sang tiếng Việt
+    const statusMap = {
+        present: "Có mặt",
+        absent: "Vắng mặt",
+        late: "Đi muộn",
+        excused: "Có phép"
+    };
+
+    // Nếu status không hợp lệ hoặc null → mặc định "Chưa có thông tin"
+    const statusText = statusMap[status] || "Chưa có thông tin";
+
+    const event = $(`
+        <div class="event ${color}" style="top:${topPos}px; height:${height - 5}px;">
+            <div class="title">${title}</div>
+            <div class="room">${room}</div>
+            <div class="status">${statusText}</div>
+        </div>
+    `);
+
+    $(`.schedule-column[data-day="${day}"]`).append(event);
+}
+
 

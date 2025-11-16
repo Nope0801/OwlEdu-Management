@@ -6,45 +6,46 @@
         <p class="btl-modal-content">Modal content goes here.</p>
         <button class="btl-btn-close">Close</button>
     </div>
+    <style>
+    .btl-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0,0,0,0.4);
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btl-modal-active {
+        display: flex;
+    }
+
+    .btl-modal {
+        background-color: var(--surface);
+        padding: 24px;
+        border-radius: 8px;
+        width: 400px;
+    }
+    .btl-modal h3 {
+        margin-bottom: 12px;
+        color: var(--text-main);
+    }
+    .btl-modal p {
+        margin-bottom: 16px;
+        color: var(--text-muted);
+    }
+    .btl-btn-close {
+        padding: 6px 12px;
+        background-color: var(--primary);
+        color: var(--text-reverse);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+    .btl-btn-close:hover {
+        background-color: var(--primary-hover);
+    }
+    </style>
+
 </div>
 
-<style>
-.btl-modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0,0,0,0.4);
-    display: none;
-    align-items: center;
-    justify-content: center;
-}
-
-.btl-modal-active {
-    display: flex;
-}
-
-.btl-modal {
-    background-color: var(--surface);
-    padding: 24px;
-    border-radius: 8px;
-    width: 400px;
-}
-.btl-modal h3 {
-    margin-bottom: 12px;
-    color: var(--text-main);
-}
-.btl-modal p {
-    margin-bottom: 16px;
-    color: var(--text-muted);
-}
-.btl-btn-close {
-    padding: 6px 12px;
-    background-color: var(--primary);
-    color: var(--text-reverse);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-.btl-btn-close:hover {
-    background-color: var(--primary-hover);
-}
-</style>

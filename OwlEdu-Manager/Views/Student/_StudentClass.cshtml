@@ -1,0 +1,157 @@
+﻿<div class="container py-4">
+    <div class="btl-card">
+        <div class="title row align-items-center g-2">
+            <div class="col-12 col-md-8">
+                <p class="m-0">Lớp học của bạn</p>
+            </div>
+
+            <div class="col-12 col-md-4 text-md-end">
+                <input type="text" id="search-box" class="form-control"
+                    placeholder="Tìm kiếm..." />
+            </div>
+        </div>
+
+        <div class="component-container" hx-get="/Components/Datagrid" hx-vals='{"Id": "dgv"}' hx-trigger="revealed" data-on-load="onLoadDg"></div>
+
+        <div class="component-container" hx-get="/Components/Pagination" hx-vals='{"Id": "pag"}' hx-trigger="revealed" data-on-load="onLoadPag"></div>
+    </div>
+</div>
+
+<style>
+
+.title {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+}
+
+.title p {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 26px;
+    margin: 0;
+}
+
+#search-box:focus {
+    box-shadow: none;
+    border: 1px solid var(--primary-hover);
+}
+
+.btn:hover {
+    background-color: var(--primary-hover);
+    color: #FFFFFF;
+}
+</style>
+
+<script>
+    function ChangePage(currentPage) {
+
+    }
+
+    function onLoadDg() {
+        var headers = ['Mã lớp', 'Tên lớp', 'Ngày bắt đầu', 'Tên khóa học', 'Tên giáo viên', 'Trạng thái']
+
+        renderDatagridHeader('dgv', headers, true);
+
+        var data = [
+            {
+                "Mã lớp": "CL001",
+                "Tên lớp": "IELTS Foundation A",
+                "Ngày bắt đầu": "2025-02-01",
+                "Tên khóa học": "IELTS Foundation",
+                "Tên giáo viên": "Nguyễn Minh Hùng",
+                "Trạng thái": "active"
+            },
+            {
+                "Mã lớp": "CL002",
+                "Tên lớp": "TOEIC Intensive B",
+                "Ngày bắt đầu": "2025-02-10",
+                "Tên khóa học": "TOEIC Intensive",
+                "Tên giáo viên": "Trần Thu Hà",
+                "Trạng thái": "closed"
+            },
+            {
+                "Mã lớp": "CL003",
+                "Tên lớp": "Lập trình C# cơ bản - C",
+                "Ngày bắt đầu": "2025-03-05",
+                "Tên khóa học": "C# Cơ bản",
+                "Tên giáo viên": "Phạm Văn Long",
+                "Trạng thái": "active"
+            },
+            {
+                "Mã lớp": "CL004",
+                "Tên lớp": "React Native nâng cao D",
+                "Ngày bắt đầu": "2025-03-15",
+                "Tên khóa học": "React Native nâng cao",
+                "Tên giáo viên": "Hoàng Đức Thịnh",
+                "Trạng thái": "closed"
+            },
+            {
+                "Mã lớp": "CL005",
+                "Tên lớp": "Java OOP Premium E",
+                "Ngày bắt đầu": "2025-04-01",
+                "Tên khóa học": "Java OOP Premium",
+                "Tên giáo viên": "Lê Thu Trang",
+                "Trạng thái": "closed"
+            }
+        ];
+
+
+
+        fillDatagrid('dgv', data);
+
+        fillDatagridAction("dgv", [
+            { 
+                text: "Chi tiết lớp", 
+                iconClass: "fa-solid fa-info", 
+                onClick: function() { alert("Clicked Chi tiết"); } 
+            },
+            { 
+                text: "Xem điểm của bạn", 
+                iconClass: "fa-solid fa-star", 
+                onClick: function() { alert("Clicked "); } 
+            }
+        ]);
+
+        styleStatusColumn('dgv');
+    }
+
+    function onLoadPag() {
+        renderPagination('pag', 10, 'ChangePage')
+    }
+
+    function styleStatusColumn(containerId) {
+        const $container = $('#' + containerId);
+        const $table = $container.find('table.datagrid');
+        const $tbody = $table.find('tbody');
+
+        $tbody.find('tr').each(function () {
+            const $tr = $(this);
+            // Lấy cột thứ 4 (index 3, 0-based)
+            const $statusTd = $tr.find('td').eq(5);
+            const statusText = $statusTd.text().trim().toLowerCase();
+
+            // Reset màu mặc định trước
+            $statusTd.css({
+                'color': '',
+                'font-weight': 'bold'
+            });
+
+            // Gán màu theo trạng thái
+            switch (statusText) {
+                case 'active':
+                    $statusTd.css('color', '#1D4ED8'); // xanh dương
+                    break;
+                case 'closed':
+                    $statusTd.css('color', '#DC2626'); // đỏ
+                    break;
+                default:
+                    $statusTd.css('color', '#6B7280'); // xám cho các trạng thái khác
+            }
+        });
+    }
+
+
+</script>

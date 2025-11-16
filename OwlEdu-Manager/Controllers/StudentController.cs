@@ -29,12 +29,17 @@ namespace OwlEdu_Manager.Controllers
 
         public IActionResult Class()
         {
-            return PartialView();
+            return PartialView("_StudentClass");
+        }
+
+        public IActionResult Schedule()
+        {
+            return PartialView("_StudentSchedule");
         }
 
         public IActionResult Payment()
         {
-            return PartialView();
+            return PartialView("_StudentPayment");
         }
     }
 }

@@ -1,0 +1,114 @@
+﻿@model string
+
+<div id="@Model" class="schedule-container container-fluid mt-4">
+    <style>
+    .schedule-container {
+        padding: 10px;
+    }
+
+    .schedule-table {
+        overflow-x: auto;
+    }
+
+    .schedule-header {
+        background: var(--surface);
+        border-bottom: 2px solid var(--border);
+        color: var(--text-main);
+    }
+
+    .schedule-day {
+        padding: 12px;
+        text-align: center;
+        font-weight: 600;
+        border-left: 1px solid var(--border);
+    }
+
+    .schedule-time .time-slot {
+        height: 60px;
+        padding: 5px;
+        text-align: right;
+        padding-right: 8px;
+        font-size: 14px;
+        color: var(--text-muted);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .schedule-column {
+        border-left: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .schedule-column .event {
+        position: absolute;
+        left: 5px;
+        right: 5px;
+        padding: 8px;
+        border-radius: 6px;
+        color: var(--text-reverse);
+        font-size: 10px;
+        overflow: hidden;
+    }
+
+    .schedule-column .event div {
+        font-size: 10px;
+    }
+
+    .event-blue {
+        background: var(--info);
+    }
+
+    .event .title {
+        font-weight: bold;
+    }
+
+    </style>
+
+    <div class="schedule-table">
+        <div class="schedule-header row g-0">
+            <div class="col-1 time-col-header"></div>
+
+            <div class="col schedule-day">Mon<br><small>10/11/2025</small></div>
+            <div class="col schedule-day">Tue<br><small>11/11/2025</small></div>
+            <div class="col schedule-day">Wed<br><small>12/11/2025</small></div>
+            <div class="col schedule-day">Thu<br><small>13/11/2025</small></div>
+            <div class="col schedule-day">Fri<br><small>14/11/2025</small></div>
+            <div class="col schedule-day">Sat<br><small>15/11/2025</small></div>
+            <div class="col schedule-day">Sun<br><small>16/11/2025</small></div>
+        </div>
+
+        <!-- BODY GRID -->
+        <div class="schedule-body row g-0">
+
+            <!-- Time Column -->
+            <div class="col-1 schedule-time">
+                <!-- Tạo cột thời gian từ 7h đến 22h -->
+                <div class="time-slot">7:00</div>
+                <div class="time-slot">8:00</div>
+                <div class="time-slot">9:00</div>
+                <div class="time-slot">10:00</div>
+                <div class="time-slot">11:00</div>
+                <div class="time-slot">12:00</div>
+                <div class="time-slot">13:00</div>
+                <div class="time-slot">14:00</div>
+                <div class="time-slot">15:00</div>
+                <div class="time-slot">16:00</div>
+                <div class="time-slot">17:00</div>
+                <div class="time-slot">18:00</div>
+                <div class="time-slot">19:00</div>
+                <div class="time-slot">20:00</div>
+                <div class="time-slot">21:00</div>
+                <div class="time-slot">22:00</div>
+            </div>
+
+            <!-- 7 Columns -->
+            <div class="col schedule-column position-relative" data-day="1"></div>
+            <div class="col schedule-column position-relative" data-day="2"></div>
+            <div class="col schedule-column position-relative" data-day="3"></div>
+            <div class="col schedule-column position-relative" data-day="4"></div>
+            <div class="col schedule-column position-relative" data-day="5"></div>
+            <div class="col schedule-column position-relative" data-day="6"></div>
+            <div class="col schedule-column position-relative" data-day="7"></div>
+
+        </div>
+    </div>
+</div>

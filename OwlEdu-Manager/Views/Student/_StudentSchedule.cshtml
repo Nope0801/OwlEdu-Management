@@ -1,0 +1,35 @@
+﻿<div class="container py-4">
+    <div class="btl-card">
+        <div class="title row align-items-center g-2">
+            <div class="col-12 col-md-8">
+                <p class="m-0">Lịch học của bạn</p>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 d-flex align-items-center">
+            <label for="date-picker" class="me-2 mb-0" style="width: 80px;">Ngày học</label>
+            <input type="date" id="date-picker" class="form-control"/>
+        </div>
+
+        <div class="component-container" hx-get="/Components/Schedule" hx-vals='{"Id": "schedule"}' hx-trigger="revealed" data-on-load="onLoad"></div>
+        
+	</div>
+</div>
+
+<script>
+    function onLoad() {
+        setScheduleWeek(new Date());
+
+        addEvent(1, '08:00', '10:00', 'Lập trình C# cơ bản', 'Phòng 101'); 
+        // status không truyền → hiển thị "Chưa có thông tin"
+
+        addEvent(2, '10:00', '12:00', 'React Native nâng cao', 'Phòng 102', 'present');
+        // hiển thị "Có mặt"
+
+    }
+
+    const dateInput = document.getElementById('date-picker');
+    dateInput.addEventListener('change', () => {
+        console.log(dateInput.value);
+    });
+</script>
