@@ -120,7 +120,8 @@
 
 </style>
 
-<script>
+<script type="module">
+import AuthService from "../../js/API/AuthService.js";
 $(document).ready(function () {
 
     $("#togglePass").click(function(){
@@ -145,32 +146,56 @@ $(document).ready(function () {
             showError("Vui lòng nhập đầy đủ thông tin!");
             return;
         }
+        AuthService.login(
+            username,
+            password,
+            function (response) {
+                // console.log("Đăng nhập thành công:", response);
 
-        // === AJAX LOGIN ===
-        $.ajax({
-            url: "http://localhost:5284/auth/login",
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({
-                Username: username,
-                Password: password
-            }),
-            success: function (res) {
-                // Nếu BE trả về 200 OK
-                if (res && res.token) {
+                if (response.role === "admin") {
+                    window.location.href = "/Admin/Index"; 
+                } else if (response.role === "student") {
+                    window.location.href = "/Student/Index"; 
+                } else if (response.role === "teacher") {
+                    window.location.href = "/Teacher/Index"; 
                 } else {
-                    showError("Dữ liệu phản hồi không hợp lệ từ server.");
+                    showError("Vai trò không hợp lệ!");
                 }
             },
-            error: function (xhr) {
-                if (xhr.status === 401) {
-                    // BE trả Unauthorized
+            function (error) {
+                if (error.status === 401) {
                     showError("Sai username hoặc password!");
                 } else {
                     showError("Lỗi kết nối tới server.");
                 }
             }
-        });
+        );
+        // === AJAX LOGIN ===
+        // $.ajax({
+        //     url: "http:localhost:5284/auth/login",
+        //     method: "POST",
+        //     contentType: "application/json",
+        //     data: JSON.stringify({
+        //         Username: username,
+        //         Password: password
+        //     }),
+        //     success: function (res) {
+        //         Nếu BE trả về 200 OK
+        //         if (res && res.token) {
+        //         } else {
+        //             showError("Dữ liệu phản hồi không hợp lệ từ server.");
+        //         }
+        //     },
+        //     error: function (xhr) {
+        //         if (xhr.status === 401) {
+        //             BE trả Unauthorized
+        //             showError("Sai username hoặc password!");
+        //         } else {
+        //             showError("Lỗi kết nối tới server.");
+        //         }
+        //     }
+        // });
+
     });
 
     function showError(msg) {
